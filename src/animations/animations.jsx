@@ -1,32 +1,47 @@
 // src/animations.js
 import gsap from "gsap";
 
-// Function for preloader animation
-export const preLoaderAnim = () => {
-  gsap.fromTo(
-    ".preloader", 
-    { opacity: 1 }, 
-    { opacity: 0, duration: 1, onComplete: () => document.querySelector(".preloader").style.display = "none" }
-  );
+export const particleToTextAnim = (onComplete) => {
+  const particles = document.querySelectorAll(".particle");
+  const text = document.querySelector(".animated-text");
+
+  gsap.timeline()
+    .to(particles, {
+      opacity: 1,
+      duration: 1.5,
+      stagger: 0.01,
+      x: () => gsap.utils.random(-50, 50),
+      y: () => gsap.utils.random(-50, 50),
+    })
+    .to(particles, {
+      x: 0,
+      y: 0,
+      duration: 1,
+      ease: "power4.out",
+    })
+    .to(
+      text,
+      {
+        opacity: 1,
+        duration: 1,
+        onComplete,
+      },
+      "-=0.5"
+    );
 };
 
-// Function to open the menu (hamburger menu animation)
-export const openMenu = () => {
-  gsap.to(".hamburger-menu", { opacity: 1, x: 0, duration: 0.5 });
+export const slideTextDown = (onComplete) => {
+  gsap.to(".animated-text", {
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    onComplete,
+  });
 };
 
-// Function to close the menu
-export const closeMenu = () => {
-  gsap.to(".hamburger-menu", { opacity: 0, x: -200, duration: 0.5 });
+export const fadeInPage = () => {
+  gsap.to(".main-content", {
+    opacity: 1,
+    duration: 1,
+  });
 };
-
-// Fade in effect
-export const fadeIn = (element) => {
-  gsap.fromTo(element, { opacity: 0 }, { opacity: 1, duration: 1 });
-};
-
-export const fadeOut = (element) => {
-  gsap.to(element, { opacity: 0, duration: 1 });
-};
-
-
