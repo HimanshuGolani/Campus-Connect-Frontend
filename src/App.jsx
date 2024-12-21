@@ -10,6 +10,7 @@ import Blog from './pages/Blog';
 import Companies from './pages/Companies';
 import CompanyDetails from './pages/CompanyDetails';
 import './style.css';
+import StudentList from './pages/StudentList';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
             {/* Add routes for companies */}
             <Route path="/companies" element={<Companies />} />
             <Route path="/companieyDetails/:id" element={<CompanyDetails />} />
+            <Route path='/StudentList' element={<StudentList />} />
             {/* <Route path="/chats/:id" element={<ChatContainer />} />
             <Route path="/chats" element={<ChatContainer />} /> */}
 

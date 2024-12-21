@@ -32,7 +32,7 @@ const Navigation = () => {
               {/* User-specific navigation */}
               <Link className="text-gray-800 hover:text-blue-500" to="/profile">Profile</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/companies">Companies</Link>
-              <Link className="text-gray-800 hover:text-blue-500" to="/chats">All Chat's</Link>
+              {/* <Link className="text-gray-800 hover:text-blue-500" to="/chats">All Chat's</Link> */}
               <Link className="text-gray-800 hover:text-blue-500" to="/blogs">Blogs</Link>
               <Link
                 onClick={logoutTasks}
@@ -46,6 +46,7 @@ const Navigation = () => {
             <>
               {/* University-specific navigation */}
               <Link className="text-gray-800 hover:text-blue-500" to="/profile">Profile</Link>
+              <Link className="text-gray-800 hover:text-blue-500" to="/StudentList">Student-List</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/companies">Companies</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/blogs">Blogs</Link>
               <Link
