@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { ApplicationContext } from '../context/ApplicationContext';
 
-const StudentList = ({ universityId }) => {
+const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +15,8 @@ const StudentList = ({ universityId }) => {
         const response = await axios.post(
           `http://localhost:8080/api/v1/university/${userId}/listOfStudents`
         );
-        setStudents(response.data.body || []);
+        console.log(response.data);
+        setStudents(response.data || []);
       } catch (err) {
         setError('Failed to fetch students. Please try again later.');
       } finally {
@@ -24,7 +25,7 @@ const StudentList = ({ universityId }) => {
     };
 
     fetchStudents();
-  }, [universityId]);
+  }, [userId]);
 
   if (loading) return <p className="text-center text-lg font-medium">Loading...</p>;
   if (error) return <p className="text-center text-red-500 text-lg font-medium">{error}</p>;
@@ -67,6 +68,12 @@ const StudentList = ({ universityId }) => {
                 >
                   Placement Status
                 </th>
+                <th
+                  scope="col"
+                  className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                >
+                  Current Company
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
@@ -86,6 +93,9 @@ const StudentList = ({ universityId }) => {
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
                     {student.placementStatement}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                    {student.currentCompany}
                   </td>
                 </tr>
               ))}

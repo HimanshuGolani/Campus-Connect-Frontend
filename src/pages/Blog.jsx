@@ -60,22 +60,46 @@ const Blog = () => {
       const companySpecificName_TAG = newBlog.companyTags.length === 1 ? newBlog.companyTags[0] : '';
       const companySpecificName_TAGS_List = newBlog.companyTags;
 
-      try {
-        await axios.post(`http://localhost:8080/api/v1/post/create/${userId}`, {
-          title: newBlog.title,
-          userName,
-          content: newBlog.content,
-          companySpecificName_TAG,
-          companySpecificName_TAGS_List,
-        });
-        setNewBlog({ title: '', content: '', companyTags: [] });
-        setIsModalOpen(false);
-        fetchPosts();
-      } catch (error) {
-        console.error('Error posting blog:', error);
-      } finally {
-        setLoading(false);
+      const CREATE_POST_URL = "http://localhost:8080/api/v1/university/createPost"
+
+      if(userType === 'user'){
+        try {
+          await axios.post(`http://localhost:8080/api/v1/post/create/${userId}`, {
+            title: newBlog.title,
+            userName,
+            content: newBlog.content,
+            companySpecificName_TAG,
+            companySpecificName_TAGS_List,
+          });
+          setNewBlog({ title: '', content: '', companyTags: [] });
+          setIsModalOpen(false);
+          fetchPosts();
+        } catch (error) {
+          console.error('Error posting blog:', error);
+        } finally {
+          setLoading(false);
+        }
       }
+      else {
+        try {
+          console.log(universityId);
+          
+          await axios.post(`${CREATE_POST_URL}/${userId}`, {
+            title: newBlog.title,
+            content: newBlog.content,
+            companySpecificName_TAG,
+            companySpecificName_TAGS_List,
+          });
+          setNewBlog({ title: '', content: '', companyTags: [] });
+          setIsModalOpen(false);
+          fetchPosts();
+        } catch (error) {
+          console.error('Error posting blog:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+      
     }
   };
 
