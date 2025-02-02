@@ -26,6 +26,8 @@ const Blog = () => {
     try {
       const response = await axios.get('http://localhost:8080/api/v1/post/getAllCompanyTags');
       const sortedTags = response.data.sort((a, b) => a.localeCompare(b));
+      console.log(response.data);
+
       setCompanyTags(sortedTags || []);
     } catch (error) {
       console.error('Error fetching company tags:', error);
@@ -35,10 +37,13 @@ const Blog = () => {
   // Fetch posts from backend with pagination
   const fetchPosts = async () => {
     try {
-      let ID_TO_SEND = userType === 'university' ? userId : universityId;
+      const ID_TO_SEND = userType === 'university' ? userId : universityId;
       const response = await axios.get(
         `http://localhost:8080/api/v1/post/getAllUniversityPosts/${ID_TO_SEND}/${currentPage}/${postsPerPage}`
       );
+
+      console.log(response.data);
+      
 
       const fetchedBlogs = response.data || [];
       setBlogs(fetchedBlogs);
@@ -50,20 +55,21 @@ const Blog = () => {
 
   useEffect(() => {
     fetchPosts();
-    getCompanyTags();    
+    getCompanyTags();
   }, [currentPage]);
 
-  // Handle adding new blog
+  // Handle adding a new blog
   const handleAddBlog = async () => {
-    if (newBlog.title && newBlog.content && newBlog.companyTags.length > 0) {
+    if (newBlog.title && newBlog.content) {
       setLoading(true);
+
       const companySpecificName_TAG = newBlog.companyTags.length === 1 ? newBlog.companyTags[0] : '';
       const companySpecificName_TAGS_List = newBlog.companyTags;
 
-      const CREATE_POST_URL = "http://localhost:8080/api/v1/university/createPost"
+      const CREATE_POST_URL = "http://localhost:8080/api/v1/university/createPost";
 
-      if(userType === 'user'){
-        try {
+      try {
+        if (userType === 'user') {
           await axios.post(`http://localhost:8080/api/v1/post/create/${userId}`, {
             title: newBlog.title,
             userName,
@@ -71,35 +77,25 @@ const Blog = () => {
             companySpecificName_TAG,
             companySpecificName_TAGS_List,
           });
-          setNewBlog({ title: '', content: '', companyTags: [] });
-          setIsModalOpen(false);
-          fetchPosts();
-        } catch (error) {
-          console.error('Error posting blog:', error);
-        } finally {
-          setLoading(false);
-        }
-      }
-      else {
-        try {
-          console.log(universityId);
-          
+        } else {
           await axios.post(`${CREATE_POST_URL}/${userId}`, {
             title: newBlog.title,
             content: newBlog.content,
             companySpecificName_TAG,
             companySpecificName_TAGS_List,
           });
-          setNewBlog({ title: '', content: '', companyTags: [] });
-          setIsModalOpen(false);
-          fetchPosts();
-        } catch (error) {
-          console.error('Error posting blog:', error);
-        } finally {
-          setLoading(false);
         }
+
+        setNewBlog({ title: '', content: '', companyTags: [] });
+        setIsModalOpen(false);
+        fetchPosts();
+      } catch (error) {
+        console.error('Error posting blog:', error);
+      } finally {
+        setLoading(false);
       }
-      
+    } else {
+      alert('Title and content are required!');
     }
   };
 
@@ -264,9 +260,9 @@ const Blog = () => {
             className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
             <option value="title">Title</option>
-            <option value="author">Author</option>
+            <option value="userName">Author</option>
             <option value="content">Content</option>
-            <option value="companyTags">Company Tags</option>
+            <option value="companySpecificName_TAG">Company Tags</option>
           </select>
         </div>
       </div>
