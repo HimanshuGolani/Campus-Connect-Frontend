@@ -14,6 +14,7 @@ import StudentList from './pages/StudentList';
 import Home2 from './chat/pages/Home';
 import Notification from './chat/pages/Notifications.jsx';
 import ChatProfile from './chat/components/specific/Profile.jsx';
+import UseFullLinkPage from './pages/UseFullLinkPage.jsx';
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/companies" element={<Companies />} />
             <Route path="/companieyDetails/:id" element={<CompanyDetails />} />
             <Route path='/StudentList' element={<StudentList />} />
+            <Route path='/links' element={<UseFullLinkPage /> } /> 
             {/* <Route path="/chats/:id" element={<ChatContainer />} />
             <Route path="/chats" element={<ChatContainer />} /> */}
 

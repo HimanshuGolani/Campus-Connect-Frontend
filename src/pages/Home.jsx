@@ -2,6 +2,7 @@ import React, { useState, useEffect , useContext } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationContext } from '../context/ApplicationContext';
+import UseFullLinkPage from './UseFullLinkPage';
 
 const Home = () => {
   const { scrollYProgress } = useScroll();
@@ -153,6 +154,7 @@ const Home = () => {
           >
             Welcome  to  Campus  Connect
           </motion.h1>
+            
           <motion.p
             className="text-3xl max-w-2xl mx-auto text-black"
             initial="hidden"

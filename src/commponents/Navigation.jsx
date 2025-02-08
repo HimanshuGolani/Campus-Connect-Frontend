@@ -35,6 +35,7 @@ const Navigation = () => {
               <Link className="text-gray-800 hover:text-blue-500" to="/companies">Companies</Link>
               {/* <Link className="text-gray-800 hover:text-blue-500" to="/chats">All Chat's</Link> */}
               <Link className="text-gray-800 hover:text-blue-500" to="/blogs">Blogs</Link>
+              <Link className='text-gray-800 hover:text-blue-500' to='/links'>Links</Link>
               <Link
                 onClick={logoutTasks}
                 className="text-gray-800 hover:text-blue-500"
@@ -50,6 +51,7 @@ const Navigation = () => {
               <Link className="text-gray-800 hover:text-blue-500" to="/StudentList">Student-List</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/companies">Companies</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/blogs">Blogs</Link>
+              <Link className='text-gray-800 hover:text-blue-500' to='/links'>Links</Link>
               <Link
                 onClick={() => setAuth(false)}
                 className="text-gray-800 hover:text-blue-500"

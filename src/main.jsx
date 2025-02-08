@@ -6,11 +6,11 @@ import './index.css';
 import { AppProvider } from './chat/context/AppProvider.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <>
     <ApplicationContextProvider>
       <AppProvider>
         <App />  
       </AppProvider>  
     </ApplicationContextProvider>
-  </StrictMode>
+  </>
 );
