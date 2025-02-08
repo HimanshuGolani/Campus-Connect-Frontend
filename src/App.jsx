@@ -11,6 +11,9 @@ import Companies from './pages/Companies';
 import CompanyDetails from './pages/CompanyDetails';
 import './style.css';
 import StudentList from './pages/StudentList';
+import Home2 from './chat/pages/Home';
+import Notification from './chat/pages/Notifications.jsx';
+import ChatProfile from './chat/components/specific/Profile.jsx';
 
 const App = () => {
   return (
@@ -25,6 +28,11 @@ const App = () => {
             <Route path="/chats" element={<ChatContainer />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/blogs" element={<Blog />} />
+            <Route path="/chitchat/chat" element={<Home2/>} />
+            <Route path='/chitchat/notification' element={<Notification />} />
+            <Route path='/chatchat/notification/:notificationParamId' element={<Notification />} />
+            {/* <Route path='/chat/:chatParamId' element={<Home />} /> */}
+            <Route path='/chat/profile/:profileId' element={<ChatProfile />} />
             {/* Add routes for companies */}
             <Route path="/companies" element={<Companies />} />
             <Route path="/companieyDetails/:id" element={<CompanyDetails />} />
