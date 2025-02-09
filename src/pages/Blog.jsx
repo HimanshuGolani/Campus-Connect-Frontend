@@ -26,8 +26,6 @@ const Blog = () => {
     try {
       const response = await axios.get('http://localhost:8080/api/v1/post/getAllCompanyTags');
       const sortedTags = response.data.sort((a, b) => a.localeCompare(b));
-      console.log(response.data);
-
       setCompanyTags(sortedTags || []);
     } catch (error) {
       console.error('Error fetching company tags:', error);
@@ -40,10 +38,7 @@ const Blog = () => {
       const ID_TO_SEND = userType === 'university' ? userId : universityId;
       const response = await axios.get(
         `http://localhost:8080/api/v1/post/getAllUniversityPosts/${ID_TO_SEND}/${currentPage}/${postsPerPage}`
-      );
-
-      console.log(response.data);
-      
+      );      
 
       const fetchedBlogs = response.data || [];
       setBlogs(fetchedBlogs);

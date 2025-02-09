@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { ApplicationContext } from "../context/ApplicationContext";
 import { FaFolder, FaFolderOpen, FaLink, FaPlus } from "react-icons/fa";
+import YouTubePlaylist from "../commponents/YouTubePlaylistEmbed";
 
 const UseFullLinkPage = () => {
   const { userId, universityId, userType } = useContext(ApplicationContext);
@@ -19,33 +20,44 @@ const UseFullLinkPage = () => {
     fetchFolders();
   }, []);
 
-  const fetchFolders = async () => {
+  const fetchFolders = useCallback(async () => {
     try {
       setLoading(true);
       let tempId = userType === "university" ? userId : universityId;
       const response = await axios.get(`http://localhost:8080/api/v1/folders/${tempId}`);
+      const parsedData = response.data.map(folder => ({ ...folder, name: JSON.parse(folder.name).name }));
+      setFolders(parsedData || []);
       console.log(response.data);
-      setFolders(response.data || []);
     } catch (err) {
       setError("Failed to load folders. Please try again.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId, universityId, userType]);
 
-  const toggleFolder = (folderId) => {
+  const toggleFolder = useCallback((folderId) => {
     setExpandedFolders((prev) => ({
       ...prev,
       [folderId]: !prev[folderId],
     }));
+  }, []);
+
+  const extractUrl = (linkString) => {
+    try {
+      const parsedLink = JSON.parse(linkString); // Parse the JSON string
+      return parsedLink.link; // Return only the URL
+    } catch (error) {
+      console.error("Error parsing link:", error);
+      return "#"; // Return a fallback value if parsing fails
+    }
   };
+  
 
   const createFolder = async () => {
     if (!folderName.trim()) return;
-    
     try {
       let tempId = userType === "university" ? userId : universityId;
-      await axios.post(`http://localhost:8080/api/v1/folders/${tempId}/create`, { name: folderName });
+      const response = await axios.post(`http://localhost:8080/api/v1/folders/${tempId}/create`, { name: folderName });
       setFolderName("");
       fetchFolders();
     } catch (error) {
@@ -55,7 +67,6 @@ const UseFullLinkPage = () => {
 
   const addSubFolder = async () => {
     if (!subFolderName.trim() || !selectedFolder) return;
-    
     try {
       let tempId = userType === "university" ? userId : universityId;
       await axios.post(`http://localhost:8080/api/v1/folders/${tempId}/${selectedFolder}/add-subfolder`, { name: subFolderName });
@@ -69,14 +80,9 @@ const UseFullLinkPage = () => {
 
   const addLink = async () => {
     if (!linkName.trim() || !selectedFolder) return;
-    
     try {
       let tempId = userType === "university" ? userId : universityId;
-      await axios.post(`http://localhost:8080/api/v1/folders/${tempId}/${selectedFolder}/add-file`, {
-        name: linkName,
-        fileType: "link",
-        content: linkName,
-      });
+      await axios.post(`http://localhost:8080/api/v1/folders/${tempId}/${selectedFolder}/add-link`, { link: linkName });
       setLinkName("");
       setSelectedFolder(null);
       fetchFolders();
@@ -86,25 +92,33 @@ const UseFullLinkPage = () => {
   };
 
   const renderFolder = (folder) => {
-    const folderKey = folder.id ? `folder-${folder.id.toString()}` : `folder-${folder.name}`;
-
     return (
-      <div key={folderKey} className="ml-4 border-l-4 border-blue-300 pl-4">
-        <div className="flex items-center cursor-pointer text-blue-700 text-lg font-semibold" onClick={() => toggleFolder(folderKey)}>
-          {expandedFolders[folderKey] ? <FaFolderOpen className="mr-2 text-2xl text-yellow-500" /> : <FaFolder className="mr-2 text-2xl text-yellow-500" />}
+      <div key={folder.id} className="ml-4 border-l-4 border-blue-300 pl-4">
+        <div className="flex items-center cursor-pointer text-blue-700 text-lg font-semibold" onClick={() => toggleFolder(folder.id)}>
+          {expandedFolders[folder.id] ? <FaFolderOpen className="mr-2 text-2xl text-yellow-500" /> : <FaFolder className="mr-2 text-2xl text-yellow-500" />}
           {folder.name}
         </div>
-
-        {expandedFolders[folderKey] && (
+        {expandedFolders[folder.id] && (
           <div className="ml-6 mt-2">
-            {folder.subFolders && folder.subFolders.map((subFolder) => renderFolder(subFolder))}
-            {folder.files && folder.files.map((file, index) => (
-              <div key={`file-${index}`} className="flex items-center text-gray-800 mt-2 text-lg">
-                <FaLink className="mr-2 text-xl text-purple-500" />
-                <a href={file.content} target="_blank" rel="noopener noreferrer" className="underline hover:text-purple-700">{file.name}</a>
+            {folder.subFolders && folder.subFolders.map(renderFolder)}
+            {folder.links && folder.links.length > 0 && (
+              <div className="mt-2">
+                <p className="text-gray-700 font-medium">Links:</p>
+                {folder.links.map((link, index) => (
+                  <div key={index} className="flex items-center text-gray-800 mt-1 text-lg">
+                    <FaLink className="mr-2 text-xl text-purple-500" />
+                    <div className="underline text-blue-600 hover:text-purple-700">
+                      <YouTubePlaylist srcUrl={extractUrl(link)} />
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-            {userType === 'university' && <button className="mt-2 text-sm text-blue-500 hover:underline" onClick={() => setSelectedFolder(folder.id)}>+ Add SubFolder or Link</button>}
+            )}
+            {userType === "university" && (
+              <button className="mt-2 text-sm text-blue-500 hover:underline" onClick={() => setSelectedFolder(folder.id)}>
+                + Add SubFolder or Link
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -116,7 +130,6 @@ const UseFullLinkPage = () => {
       <motion.h1 className="text-4xl font-bold text-blue-700 mb-6" animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
         Useful Links
       </motion.h1>
-
       {userType === "university" && (
         <div className="mb-6 flex items-center space-x-4">
           <input type="text" value={folderName} onChange={(e) => setFolderName(e.target.value)} placeholder="Folder Name" className="p-3 border rounded-lg text-lg w-1/3" />
@@ -125,7 +138,6 @@ const UseFullLinkPage = () => {
           </button>
         </div>
       )}
-
       {selectedFolder && (
         <div className="mb-6 flex items-center space-x-4">
           <input type="text" value={subFolderName} onChange={(e) => setSubFolderName(e.target.value)} placeholder="SubFolder Name" className="p-3 border rounded-lg text-lg w-1/3" />
@@ -134,16 +146,7 @@ const UseFullLinkPage = () => {
           <button onClick={addLink} className="bg-purple-500 text-white px-5 py-3 rounded-lg text-lg hover:bg-purple-700">Add Link</button>
         </div>
       )}
-
-      {loading ? (
-        <p className="text-gray-600 text-lg">Loading folders...</p>
-      ) : error ? (
-        <p className="text-red-500 text-lg">{error}</p>
-      ) : folders.length === 0 ? (
-        <p className="text-gray-600 text-lg">No folders available.</p>
-      ) : (
-        <div className="mt-4">{folders.map(renderFolder)}</div>
-      )}
+      {loading ? <p>Loading folders...</p> : error ? <p className="text-red-500">{error}</p> : folders.length === 0 ? <p>No folders available.</p> : folders.map(renderFolder)}
     </div>
   );
 };
