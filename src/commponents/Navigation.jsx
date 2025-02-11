@@ -33,6 +33,7 @@ const Navigation = () => {
               <Link className="text-gray-800 hover:text-blue-500" to="/profile">Profile</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/chitchat/chat">Chat</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/companies">Companies</Link>
+              <Link className="text-gray-800 hover:text-blue-500" to='/leaderboard'>Coding Leaderboard</Link> 
               {/* <Link className="text-gray-800 hover:text-blue-500" to="/chats">All Chat's</Link> */}
               <Link className="text-gray-800 hover:text-blue-500" to="/blogs">Blogs</Link>
               <Link className='text-gray-800 hover:text-blue-500' to='/links'>Links</Link>
@@ -50,6 +51,7 @@ const Navigation = () => {
               <Link className="text-gray-800 hover:text-blue-500" to="/profile">Profile</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/StudentList">Student-List</Link>
               <Link className="text-gray-800 hover:text-blue-500" to="/companies">Companies</Link>
+              <Link className="text-gray-800 hover:text-blue-500" to='/leaderboard'>Coding Leaderboard</Link> 
               <Link className="text-gray-800 hover:text-blue-500" to="/blogs">Blogs</Link>
               <Link className='text-gray-800 hover:text-blue-500' to='/links'>Links</Link>
               <Link
