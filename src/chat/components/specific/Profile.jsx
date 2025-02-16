@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
 import proxyService1 from '../../proxyService1';
 import toast from 'react-hot-toast';
+import Profile2 from './Profile2'
 
 const Profile = () => {
     const {profileId} = useParams();
@@ -79,52 +80,9 @@ const Profile = () => {
     },[profileId,bioBtn])
 
     return (
-        <>
-        {loading?(<h1>Loading....</h1>):(
-            <AppLayout>
-            <div className='bg-white h-full w-full rounded-xl relative flex flex-col gap-3 items-center py-[80px]'>
-            <div className='bg-black h-[150px] w-[150px] rounded-full'>
-
-            </div>
-            <div className='text-3xl'>
-                {personData?personData.userName:'Name not loaded'}
-            </div>
-            <div type='text' className={`w-[90%] border text-black ${!bioBtn?('border-primary border-2 '):('border-black')} rounded-xl p-3 relative`}>
-                <textarea ref={bioRef} onChange={BioInputChangeHandler} disabled={bioBtn} className='placeholder:text-black w-full h-full outline-none' placeholder={personData?personData.description:'Bio not loaded'}></textarea>
-            </div>
-            <div className='w-full flex justify-end px-[5%]'>
-                <div >
-                    {
-                        profileId == localStorage.getItem('UserId')? (
-                            <div className='flex gap-3'>
-                                <div className={bioBtn?('px-5 py-2 text-md border border-black rounded-full cursor-pointer hover:bg-primary hover:text-white hover:border-primary transition-all duration-100'):('px-5 py-2 text-md border rounded-full cursor-pointer bg-primary text-white hover:bg-orange-700 hover:border-primary transition-all duration-100')} onClick={ChangeBioHandler}>
-                                    {bioBtn?('Change Bio'):('UpdateBio')}
-                                </div>
-                                <div onClick={LogOutHandler} className='px-5 py-2 text-md border border-black rounded-full cursor-pointer hover:bg-primary hover:text-white hover:border-primary transition-all duration-100'>
-                                    Log Out
-                                </div>
-                            </div>
-                            ):(
-                            <div className='flex gap-3'>
-                                <div className='px-5 py-2 text-md border border-black rounded-full cursor-pointer hover:bg-primary hover:text-white hover:border-primary transition-all duration-100 text-center' onClick={RemoveFriendHandler}>
-                                    Remove Friend
-                                </div>
-                                <div className='px-5 py-2 text-md border border-black rounded-full cursor-pointer hover:bg-primary hover:text-white hover:border-primary transition-all duration-100 text-center'>
-                                    Archive Friend
-                                </div>
-                                <div className='px-5 py-2 text-md border border-black rounded-full cursor-pointer hover:bg-primary hover:text-white hover:border-primary transition-all duration-100 text-center'>
-                                    Block Friend
-                                </div>
-                            </div>
-                        )
-                    }
-                </div>
-            </div>
-        </div>
+        <AppLayout>
+            <Profile2 />
         </AppLayout>
-        
-    )}
-    </>
     )
 }
 

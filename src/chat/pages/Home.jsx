@@ -25,13 +25,7 @@ const Home = () => {
 
     const fetchFriend = async () => {
         try {
-            const response = await proxyService1.get('/friend/getAllFriend',  
-            //     {
-            //     headers: {
-            //         token: localStorage.getItem('token'),  
-            //     },
-            // }
-            );
+            const response = await proxyService1.get('/friend/getAllFriend/'+localStorage.getItem('userId'));
             setFriendPerson(response.data.friends);
         } catch (error) {
             if(error.status==400){

@@ -21,18 +21,10 @@ const Notifications = () => {
 
         const fetchNotPerson = async () => {
             try {
-              const token = localStorage.getItem('token');
-              if (!token) {
-                console.error("Token not found! User may not be authenticated.");
-                return;
-              }
           
-              const response = await proxyService1.get('/friend/getAllFriendRequest', {
-                headers: {
-                  token, 
-                },
-              });
-                setNotPerson(response.data.friendRequest); 
+              const response = await proxyService1.get('/friend/getAllFriendRequest/'+localStorage.getItem('userId'));
+              console.log("hello", response.data.friendRequest);
+              setNotPerson(response.data.friendRequest); 
             } catch (error) {
               console.error("Error fetching friend requests:", error.message);
             }
