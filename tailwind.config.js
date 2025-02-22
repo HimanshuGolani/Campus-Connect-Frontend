@@ -13,9 +13,3 @@ export const theme = {
   },
 };
 
-export const plugins = [
-  require("@tailwindcss/aspect-ratio"),
-  require("@tailwindcss/line-clamp"),
-];
-
-export const v = {};
