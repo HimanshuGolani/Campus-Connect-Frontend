@@ -11,13 +11,13 @@ const LeaderBoard = () => {
   const [hoveredUser, setHoveredUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { universityId, userId, userType } = useContext(ApplicationContext);
+  const { universityId, userId, userType, BASE_URL } = useContext(ApplicationContext);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
         const ID_TO_SEND = userType === "university" ? userId : universityId;
-        const response = await axios.get(`http://localhost:8080/api/v1/leetcode/${ID_TO_SEND}`);
+        const response = await axios.get(`${BASE_URL}leetcode/${ID_TO_SEND}`);
 
         const leaderboardData = Object.entries(response.data)
           .map(([username, stats]) => ({

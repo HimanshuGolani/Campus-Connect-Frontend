@@ -24,7 +24,7 @@ const Blog = () => {
   // Fetch company tags from backend
   const getCompanyTags = async () => {
     try {
-      const response = await axios.get('${BASE_URL}post/getAllCompanyTags');
+      const response = await axios.get(`${BASE_URL}post/getAllCompanyTags`);
       const sortedTags = response.data.sort((a, b) => a.localeCompare(b));
       setCompanyTags(sortedTags || []);
     } catch (error) {
