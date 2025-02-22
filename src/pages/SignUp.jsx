@@ -38,11 +38,13 @@ const SignUp = () => {
 
   useEffect(() => {
     const fetchUniversities = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
-          '${BASE_URL}university/universityList'
+          `${BASE_URL}university/universityList`
         );
         setUniversities(response.data || []);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching universities:', error);
       }

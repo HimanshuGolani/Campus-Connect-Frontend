@@ -74,6 +74,7 @@ const Profile = () => {
     <div className="flex flex-col items-center justify-start min-h-screen bg-[#f0f2f5] p-6">
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-6">
 
+
         {userType !== "university" && (
           <div className="mb-6">
             {!profileData?.leetCodeUserName && (
@@ -117,10 +118,11 @@ const Profile = () => {
 
         {activeTab === "user" && userType !== "university" && profileData && (
           <>
-            <h1 className="text-2xl font-bold text-[#111518] mb-4">
-              {profileData.userName || "User Name"}
-            </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">University Name</p>
+                <p className="text-sm text-[#60778a]">{profileData.universityName || "N/A"}</p>
+              </div>
               <div className="bg-[#f0f2f5] p-4 rounded-xl">
                 <p className="font-semibold text-[#111518]">Email</p>
                 <p className="text-sm text-[#60778a]">{profileData.email || "N/A"}</p>
@@ -137,14 +139,23 @@ const Profile = () => {
                 <p className="font-semibold text-[#111518]">Current Company</p>
                 <p className="text-sm text-[#60778a]">{profileData.currentCompany || "N/A"}</p>
               </div>
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">Profile Statement</p>
+                <p className="text-sm text-[#60778a]">{profileData.placementStatement || "N/A"}</p>
+              </div>
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">leetCode User name</p>
+                <p className="text-sm text-[#60778a]">{profileData.leetCodeUserName || "N/A"}</p>
+              </div>
             </div>
           </>
         )}
 
+
         {(activeTab === "university" || userType === "university") && universityProfileData && (
           <>
             <h1 className="text-2xl font-bold text-[#111518] mb-4">
-              {universityProfileData.universityName || "University Name"}
+              University Profile
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-[#f0f2f5] p-4 rounded-xl">
@@ -152,6 +163,30 @@ const Profile = () => {
                 <p className="text-sm text-[#60778a]">
                   {new Date(universityProfileData.establishedIn).toLocaleDateString() || "N/A"}
                 </p>
+              </div>
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">University Name</p>
+                <p className="text-sm text-[#60778a]">{universityProfileData.universityName  || "N/A"}</p>
+              </div>
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">Location</p>
+                <p className="text-sm text-[#60778a]">{universityProfileData.locationOfUniversity || "N/A"}</p>
+              </div>
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">NIRK Ranking</p>
+                <p className="text-sm text-[#60778a]">{universityProfileData.nirfRank || "N/A"}</p>
+              </div>
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">Number of Company's visits ofr placements</p>
+                <p className="text-sm text-[#60778a]">{universityProfileData.numberOfCompaniesVisiting || "N/A"}</p>
+              </div>
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">All students</p>
+                <p className="text-sm text-[#60778a]">{universityProfileData.numberOfStudents || "N/A"}</p>
+              </div>
+              <div className="bg-[#f0f2f5] p-4 rounded-xl">
+                <p className="font-semibold text-[#111518]">Placement Head name</p>
+                <p className="text-sm text-[#60778a]">{universityProfileData.officerHead || "N/A"}</p>
               </div>
               <div className="bg-[#f0f2f5] p-4 rounded-xl">
                 <p className="font-semibold text-[#111518]">Location</p>
