@@ -7,13 +7,13 @@ const StudentList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { userId } = useContext(ApplicationContext);
+  const { userId , BASE_URL} = useContext(ApplicationContext);
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:8080/api/v1/university/${userId}/listOfStudents`
+          `${BASE_URL}university/${userId}/listOfStudents`
         );
         console.log(response.data);
         setStudents(response.data || []);

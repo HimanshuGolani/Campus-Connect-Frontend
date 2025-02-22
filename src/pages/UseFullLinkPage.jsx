@@ -6,7 +6,7 @@ import { FaFolder, FaFolderOpen, FaLink, FaPlus } from "react-icons/fa";
 import YouTubePlaylist from "../commponents/YouTubePlaylistEmbed";
 
 const UseFullLinkPage = () => {
-  const { userId, universityId, userType } = useContext(ApplicationContext);
+  const { userId, universityId, userType , BASE_URL } = useContext(ApplicationContext);
   const [folders, setFolders] = useState([]);
   const [expandedFolders, setExpandedFolders] = useState({});
   const [folderName, setFolderName] = useState("");
@@ -24,10 +24,9 @@ const UseFullLinkPage = () => {
     try {
       setLoading(true);
       let tempId = userType === "university" ? userId : universityId;
-      const response = await axios.get(`http://localhost:8080/api/v1/folders/${tempId}`);
+      const response = await axios.get(`${BASE_URL}folders/${tempId}`);
       const parsedData = response.data.map(folder => ({ ...folder, name: JSON.parse(folder.name).name }));
       setFolders(parsedData || []);
-      console.log(response.data);
     } catch (err) {
       setError("Failed to load folders. Please try again.");
     } finally {
@@ -44,20 +43,19 @@ const UseFullLinkPage = () => {
 
   const extractUrl = (linkString) => {
     try {
-      const parsedLink = JSON.parse(linkString); // Parse the JSON string
-      return parsedLink.link; // Return only the URL
+      const parsedLink = JSON.parse(linkString);
+      return parsedLink.link;
     } catch (error) {
       console.error("Error parsing link:", error);
-      return "#"; // Return a fallback value if parsing fails
+      return "#";
     }
   };
-  
 
   const createFolder = async () => {
     if (!folderName.trim()) return;
     try {
       let tempId = userType === "university" ? userId : universityId;
-      const response = await axios.post(`http://localhost:8080/api/v1/folders/${tempId}/create`, { name: folderName });
+      await axios.post(`${BASE_URL}folders/${tempId}/create`, { name: folderName });
       setFolderName("");
       fetchFolders();
     } catch (error) {
@@ -69,7 +67,7 @@ const UseFullLinkPage = () => {
     if (!subFolderName.trim() || !selectedFolder) return;
     try {
       let tempId = userType === "university" ? userId : universityId;
-      await axios.post(`http://localhost:8080/api/v1/folders/${tempId}/${selectedFolder}/add-subfolder`, { name: subFolderName });
+      await axios.post(`${BASE_URL}folders/${tempId}/${selectedFolder}/add-subfolder`, { name: subFolderName });
       setSubFolderName("");
       setSelectedFolder(null);
       fetchFolders();
@@ -82,7 +80,7 @@ const UseFullLinkPage = () => {
     if (!linkName.trim() || !selectedFolder) return;
     try {
       let tempId = userType === "university" ? userId : universityId;
-      await axios.post(`http://localhost:8080/api/v1/folders/${tempId}/${selectedFolder}/add-link`, { link: linkName });
+      await axios.post(`${BASE_URL}folders/${tempId}/${selectedFolder}/add-link`, { link: linkName });
       setLinkName("");
       setSelectedFolder(null);
       fetchFolders();
@@ -105,11 +103,15 @@ const UseFullLinkPage = () => {
               <div className="mt-2">
                 <p className="text-gray-700 font-medium">Links:</p>
                 {folder.links.map((link, index) => (
-                  <div key={index} className="flex items-center text-gray-800 mt-1 text-lg">
+                  <div key={index} className="flex flex-col items-start text-gray-800 mt-2">
                     <FaLink className="mr-2 text-xl text-purple-500" />
-                    <div className="underline text-blue-600 hover:text-purple-700">
+                    {extractUrl(link).includes("youtube.com") ? (
                       <YouTubePlaylist srcUrl={extractUrl(link)} />
-                    </div>
+                    ) : (
+                      <a href={extractUrl(link)} target="_blank" rel="noopener noreferrer" className="underline text-blue-600 hover:text-purple-700">
+                        {extractUrl(link)}
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>

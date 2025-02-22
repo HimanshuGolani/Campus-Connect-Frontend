@@ -1,5 +1,3 @@
-
-
 import React, { createContext, useState, useEffect } from 'react';
 
 // Create context
@@ -13,6 +11,8 @@ const ApplicationContextProvider = ({ children }) => {
   const [userName, setUserName] = useState(localStorage.getItem('userName') || null);
   const [userType, setUserTypeContext] = useState(localStorage.getItem('userType') || null);
   const [universityId, setUniversityId] = useState(localStorage.getItem('universityId') || null);
+
+  const BASE_URL = 'http://localhost:8080/api/v1/';
 
   useEffect(() => {
     console.log("Updated context:", { auth, userId, userName, userType, universityId });
@@ -54,7 +54,8 @@ const ApplicationContextProvider = ({ children }) => {
       userId, setUserId, 
       userName, setUserName, 
       userType, setUserTypeContext, 
-      universityId, setUniversityId 
+      universityId, setUniversityId ,
+      BASE_URL
     }}>
       {children}
     </ApplicationContext.Provider>

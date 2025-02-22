@@ -1,10 +1,13 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ApplicationContext } from '../context/ApplicationContext';
 
 
 const SignUp = () => {
   const navigate = useNavigate();
+
+  const {BASE_URL} = useContext(ApplicationContext);
 
   const [userType, setUserType] = useState('user');
   const [formData, setFormData] = useState({
@@ -33,7 +36,7 @@ const SignUp = () => {
     const fetchUniversities = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:8080/api/v1/university/universityList'
+          '${BASE_URL}university/universityList'
         );
         setUniversities(response.data || []);
       } catch (error) {
@@ -76,7 +79,7 @@ const SignUp = () => {
     console.log('User Type:', userType); 
 
     try {
-      const response = await axios.post(`http://localhost:8080/api/v1/auth/${userType}/signup`, {
+      const response = await axios.post(`${BASE_URL}auth/${userType}/signup`, {
         ...formData,
         userType,
       });

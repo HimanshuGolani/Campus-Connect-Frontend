@@ -8,7 +8,7 @@ const Companies = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newCompany, setNewCompany] = useState({ name: '' });
-  const { userId,universityId , userType} = useContext(ApplicationContext);
+  const { userId,universityId , userType , BASE_URL} = useContext(ApplicationContext);
   const navigate = useNavigate();
 
   // Fetch companies from backend
@@ -22,7 +22,7 @@ const Companies = () => {
         ID = universityId;
       }
       const response = await axios.get(
-        `http://localhost:8080/api/v1/university/getListOfCompanies/${ID}`
+        `${BASE_URL}university/getListOfCompanies/${ID}`
       );
 
       console.log(response.data);
@@ -43,7 +43,7 @@ const Companies = () => {
     }
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/university/createCompany/${userId}`,
+        `${BASE_URL}university/createCompany/${userId}`,
         {
           companyName: newCompany.name,
         }

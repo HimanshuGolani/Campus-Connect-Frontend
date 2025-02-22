@@ -22,7 +22,6 @@ const YouTubePlaylist = ({ srcUrl }) => {
   );
 };
 
-// Function to convert standard YouTube URLs to embeddable URLs
 const convertToEmbedUrl = (url) => {
   const videoIdMatch = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
   return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;

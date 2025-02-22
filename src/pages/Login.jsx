@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('user');  
 
-  const { setAuth, setUserId, setUserName, setUserTypeContext , setUniversityId } = useContext(ApplicationContext);
+  const { setAuth, setUserId, setUserName, setUserTypeContext , setUniversityId , BASE_URL} = useContext(ApplicationContext);
 
   const navigate = useNavigate();
 
@@ -23,16 +23,16 @@ const Login = () => {
       let apiUrl;
       switch (userType) {
         case 'user':
-          apiUrl = 'http://localhost:8080/api/v1/auth/user/login';  // URL for student
+          apiUrl = `${BASE_URL}auth/user/login`;  // URL for student
           break;
         case 'alumni':
-          apiUrl = 'http://localhost:8080/api/v1/auth/user/login';  // URL for alumni
+          apiUrl = `${BASE_URL}auth/user/login`;  // URL for alumni
           break;
         case 'university':
-          apiUrl = 'http://localhost:8080/api/v1/auth/university/login';  // URL for university staff
+          apiUrl = `${BASE_URL}auth/university/login`;  // URL for university staff
           break;
         default:
-          apiUrl = 'http://localhost:8080/api/v1/auth/user/login'; // Default URL
+          apiUrl = `${BASE_URL}auth/user/login`; // Default URL
       }
 
       // Making the POST request

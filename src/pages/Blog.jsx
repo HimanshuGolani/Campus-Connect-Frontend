@@ -19,12 +19,12 @@ const Blog = () => {
   const [searchField, setSearchField] = useState('title');
   const [companyTags, setCompanyTags] = useState([]);
 
-  const { userId, universityId, userType, userName } = useContext(ApplicationContext);
+  const { userId, universityId, userType, userName , BASE_URL } = useContext(ApplicationContext);
 
   // Fetch company tags from backend
   const getCompanyTags = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/v1/post/getAllCompanyTags');
+      const response = await axios.get('${BASE_URL}post/getAllCompanyTags');
       const sortedTags = response.data.sort((a, b) => a.localeCompare(b));
       setCompanyTags(sortedTags || []);
     } catch (error) {
@@ -37,7 +37,7 @@ const Blog = () => {
     try {
       const ID_TO_SEND = userType === 'university' ? userId : universityId;
       const response = await axios.get(
-        `http://localhost:8080/api/v1/post/getAllUniversityPosts/${ID_TO_SEND}/${currentPage}/${postsPerPage}`
+        `${BASE_URL}post/getAllUniversityPosts/${ID_TO_SEND}/${currentPage}/${postsPerPage}`
       );      
 
       const fetchedBlogs = response.data || [];
@@ -61,11 +61,11 @@ const Blog = () => {
       const companySpecificName_TAG = newBlog.companyTags.length === 1 ? newBlog.companyTags[0] : '';
       const companySpecificName_TAGS_List = newBlog.companyTags;
 
-      const CREATE_POST_URL = "http://localhost:8080/api/v1/university/createPost";
+      const CREATE_POST_URL = "${BASE_URL}university/createPost";
 
       try {
         if (userType === 'user') {
-          await axios.post(`http://localhost:8080/api/v1/post/create/${userId}`, {
+          await axios.post(`${BASE_URL}post/create/${userId}`, {
             title: newBlog.title,
             userName,
             content: newBlog.content,
