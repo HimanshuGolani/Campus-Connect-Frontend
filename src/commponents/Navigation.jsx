@@ -1,76 +1,115 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { ApplicationContext } from '../context/ApplicationContext';
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { ApplicationContext } from "../context/ApplicationContext";
+import { HiOutlineMenu, HiOutlineX } from "react-icons/hi"; // Icons for menu
 
 const Navigation = () => {
-  const { auth, setAuth, userType  ,setUserId ,
-    setUserName ,
-    setUserTypeContext ,
-  setUniversityId } = useContext(ApplicationContext);
+  const { auth, setAuth, userType, setUserId, setUserName, setUserTypeContext, setUniversityId } =
+    useContext(ApplicationContext);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const logoutTasks = () => {
     setAuth(false);
     setUserId("");
     setUserName("");
-    setUserTypeContext(""); 
+    setUserTypeContext("");
     setUniversityId("");
+    setMenuOpen(false); // Close menu on logout
   };
-  
+
   return (
-    <header className="flex items-center justify-between border-b border-gray-200 px-10 py-3">
-      <div className="flex items-center gap-4">
-        <div className="text-xl font-bold text-gray-800">
+    <header className="bg-white border-b border-gray-200 px-6 py-4 md:px-10">
+      <div className="flex justify-between items-center">
+        {/* Logo */}
+        <div className="text-2xl font-bold text-gray-800">
           <Link to="/">Campus Connect</Link>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button className="md:hidden text-gray-800 text-2xl" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <HiOutlineX /> : <HiOutlineMenu />}
+        </button>
+
+        {/* Navigation Links */}
+        <nav
+          className={`absolute md:static top-16 left-0 w-full md:w-auto md:flex bg-white md:bg-transparent shadow-md md:shadow-none transition-all duration-300 ${
+            menuOpen ? "block" : "hidden"
+          }`}
+        >
+          <ul className="flex flex-col md:flex-row gap-6 text-lg p-4 md:p-0">
+            <li>
+              <Link className="text-gray-800 hover:text-blue-500" to="/" onClick={() => setMenuOpen(false)}>
+                Home
+              </Link>
+            </li>
+
+            {auth ? (
+              <>
+                <li>
+                  <Link className="text-gray-800 hover:text-blue-500" to="/profile" onClick={() => setMenuOpen(false)}>
+                    Profile
+                  </Link>
+                </li>
+
+                {userType === "user" ? (
+                  <>
+                    <li>
+                      <Link className="text-gray-800 hover:text-blue-500" to="/chitchat/chat" onClick={() => setMenuOpen(false)}>
+                        Chat
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="text-gray-800 hover:text-blue-500" to="/companies" onClick={() => setMenuOpen(false)}>
+                        Companies
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="text-gray-800 hover:text-blue-500" to="/leaderboard" onClick={() => setMenuOpen(false)}>
+                        Coding Leaderboard
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <li>
+                    <Link className="text-gray-800 hover:text-blue-500" to="/StudentList" onClick={() => setMenuOpen(false)}>
+                      Student List
+                    </Link>
+                  </li>
+                )}
+
+                <li>
+                  <Link className="text-gray-800 hover:text-blue-500" to="/blogs" onClick={() => setMenuOpen(false)}>
+                    Blogs
+                  </Link>
+                </li>
+                <li>
+                  <Link className="text-gray-800 hover:text-blue-500" to="/links" onClick={() => setMenuOpen(false)}>
+                    Links
+                  </Link>
+                </li>
+                <li>
+                  <Link className="text-gray-800 hover:text-blue-500" onClick={logoutTasks} to="/">
+                    Logout
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link className="text-gray-800 hover:text-blue-500" to="/login" onClick={() => setMenuOpen(false)}>
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link className="text-gray-800 hover:text-blue-500" to="/signup" onClick={() => setMenuOpen(false)}>
+                    Signup
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
       </div>
-      <nav className="flex items-center gap-8">
-        <Link className="text-gray-800 hover:text-blue-500" to="/">Home</Link>
-        {auth ? (
-          // If authenticated
-          userType === 'user' ? (
-            <>
-              {/* User-specific navigation */}
-              <Link className="text-gray-800 hover:text-blue-500" to="/profile">Profile</Link>
-              <Link className="text-gray-800 hover:text-blue-500" to="/chitchat/chat">Chat</Link>
-              <Link className="text-gray-800 hover:text-blue-500" to="/companies">Companies</Link>
-              <Link className="text-gray-800 hover:text-blue-500" to='/leaderboard'>Coding Leaderboard</Link> 
-              {/* <Link className="text-gray-800 hover:text-blue-500" to="/chats">All Chat's</Link> */}
-              <Link className="text-gray-800 hover:text-blue-500" to="/blogs">Blogs</Link>
-              <Link className='text-gray-800 hover:text-blue-500' to='/links'>Links</Link>
-              <Link
-                onClick={logoutTasks}
-                className="text-gray-800 hover:text-blue-500"
-                to="/"
-              >
-                Logout
-              </Link>
-            </>
-          ) : (
-            <>
-              {/* University-specific navigation */}
-              <Link className="text-gray-800 hover:text-blue-500" to="/profile">Profile</Link>
-              <Link className="text-gray-800 hover:text-blue-500" to="/StudentList">Student-List</Link>
-              <Link className="text-gray-800 hover:text-blue-500" to="/companies">Companies</Link>
-              <Link className="text-gray-800 hover:text-blue-500" to='/leaderboard'>Coding Leaderboard</Link> 
-              <Link className="text-gray-800 hover:text-blue-500" to="/blogs">Blogs</Link>
-              <Link className='text-gray-800 hover:text-blue-500' to='/links'>Links</Link>
-              <Link
-                onClick={() => setAuth(false)}
-                className="text-gray-800 hover:text-blue-500"
-                to="/"
-              >
-                Logout
-              </Link>
-            </>
-          )
-        ) : (
-          // If not authenticated
-          <>
-            <Link className="text-gray-800 hover:text-blue-500" to="/login">Login</Link>
-            <Link className="text-gray-800 hover:text-blue-500" to="/signup">Signup</Link>
-          </>
-        )}
-      </nav>
     </header>
   );
 };

@@ -2,11 +2,14 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationContext } from '../context/ApplicationContext'; 
+import Loader from '../commponents/Loader';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('user');  
+  const [loading, setLoading] = useState(false); // State for loader
+
 
   const { setAuth, setUserId, setUserName, setUserTypeContext , setUniversityId , BASE_URL} = useContext(ApplicationContext);
 
@@ -17,6 +20,9 @@ const Login = () => {
       alert('Please enter both your email and password.');
       return;
     }
+
+    setLoading(true); // Show loader
+
 
     try {
       // Dynamically set the API URL based on the userType
@@ -41,6 +47,9 @@ const Login = () => {
         password,
         userType,  // Include userType to help server identify the user role
       });
+
+      setLoading(true); // Show loader
+
 
 
       // Handle successful login by updating the context with user data
@@ -87,6 +96,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            {loading && <Loader />} 
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">University Portal Login</h1>
         <p className="text-center text-gray-600 mb-6">Select your role and enter your email address to log in.</p>

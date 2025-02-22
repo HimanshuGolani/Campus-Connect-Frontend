@@ -33,7 +33,7 @@ const LeaderBoard = () => {
               { name: "Hard", value: stats.hardSolved },
             ],
           }))
-          .sort((a, b) => b.totalSolved - a.totalSolved); 
+          .sort((a, b) => b.totalSolved - a.totalSolved);
 
         setData(leaderboardData);
         setLoading(false);
@@ -59,12 +59,18 @@ const LeaderBoard = () => {
       </motion.h1>
 
       {loading ? (
-        <div className="text-center text-lg">Loading...</div>
+        <div className="w-full max-w-6xl bg-white rounded-xl shadow-lg p-6">
+          <div className="animate-pulse space-y-4">
+            {[...Array(5)].map((_, index) => (
+              <div key={index} className="h-6 bg-gray-300 rounded w-full"></div>
+            ))}
+          </div>
+        </div>
       ) : error ? (
         <div className="text-center text-red-500 text-lg">{error}</div>
       ) : (
         <motion.div
-          className="w-full max-w-6xl bg-white rounded-xl shadow-lg p-6"
+          className="w-full max-w-6xl bg-white rounded-xl shadow-lg p-6 overflow-x-auto"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -101,11 +107,10 @@ const LeaderBoard = () => {
                   <td className="py-3 px-4">{user.mediumSolved}</td>
                   <td className="py-3 px-4">{user.hardSolved}</td>
                   <td className="py-3 px-4">{user.ranking}</td>
-                  <td className="py-3 px-4">{user.contributionPoints}</td>
 
                   {hoveredUser?.username === user.username && (
                     <motion.div
-                      className="absolute top-0 right-0 bg-white p-4 rounded-lg shadow-lg"
+                      className="fixed top-20 right-10 bg-white p-4 rounded-lg shadow-lg z-10"
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}

@@ -2,12 +2,16 @@ import axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationContext } from '../context/ApplicationContext';
+import Loader from '../commponents/Loader';
 
 
 const SignUp = () => {
   const navigate = useNavigate();
 
   const {BASE_URL} = useContext(ApplicationContext);
+
+  const [loading, setLoading] = useState(false); // State for loader
+
 
   const [userType, setUserType] = useState('user');
   const [formData, setFormData] = useState({
@@ -73,16 +77,19 @@ const SignUp = () => {
     if (password !== confirmPassword) {
       alert('Passwords do not match.');
       return;
-    }
+    } 
 
-    console.log('Sign-Up Payload:', formData);  
-    console.log('User Type:', userType); 
+    setLoading(true);
 
     try {
       const response = await axios.post(`${BASE_URL}auth/${userType}/signup`, {
         ...formData,
         userType,
       });
+
+
+      setLoading(false);
+
 
       navigate("/");
       
@@ -94,6 +101,7 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            {loading && <Loader />} {/* Show loader when loading */}
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Sign Up</h1>
 
