@@ -12,7 +12,8 @@ const ApplicationContextProvider = ({ children }) => {
   const [userType, setUserTypeContext] = useState(localStorage.getItem('userType') || null);
   const [universityId, setUniversityId] = useState(localStorage.getItem('universityId') || null);
 
-  const BASE_URL = 'http://localhost:8080/api/v1/';
+  // const BASE_URL = 'http://localhost:8080/api/v1/';
+  const BASE_URL = 'https://campusconnect-ycye.onrender.com/api/v1/';
 
   useEffect(() => {
     console.log("Updated context:", { auth, userId, userName, userType, universityId });
