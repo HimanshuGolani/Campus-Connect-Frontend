@@ -51,12 +51,9 @@ const Home = () => {
     
     const RequestBtnHandler = async() =>{
         const response = await proxyService1.post('/friend/addFriend',{
+            userId: localStorage.getItem('userId'),
             friendEmail:friendEmail
-        },{
-            headers:{
-                token: localStorage.getItem('token')
-            }
-        })
+        });
         if(response.status==200){
             toast.success('Friend Request Sent');
         }else{
@@ -88,7 +85,7 @@ const Home = () => {
 
     useEffect(()=>{
         setChatP(chatParamId)
-        joinSocketHandler();
+        // joinSocketHandler();
         fetchFriend();
     },[chatParamId])
 

@@ -6,7 +6,7 @@ const Chat = ({data,Id,chatParamId,mode='Offline'}) => {
   const navigate = useNavigate();
 
   const clickChatHandler = () => {
-    navigate(`/chat/${Id}`);
+    navigate(`/chitchat/chat/${Id}`);
   }
 
 

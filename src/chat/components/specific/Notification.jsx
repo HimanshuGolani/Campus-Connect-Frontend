@@ -6,7 +6,7 @@ const Notification = ({data,Id,notificationParamId}) => {
   const navigate = useNavigate();
 
   const clickChatHandler = () => {
-    navigate(`/notification/${Id}`);
+    navigate(`/chitchat/notification/${Id}`);
   }
 
 

@@ -32,8 +32,8 @@ const App = () => {
             <Route path="/blogs" element={<Blog />} />
             <Route path="/chitchat/chat" element={<Home2/>} />
             <Route path='/chitchat/notification' element={<Notification />} />
-            <Route path='/chatchat/notification/:notificationParamId' element={<Notification />} />
-            {/* <Route path='/chat/:chatParamId' element={<Home />} /> */}
+            <Route path='/chitchat/notification/:notificationParamId' element={<Notification />} />
+            <Route path='/chitchat/chat/:chatParamId' element={<Home2 />} />
             <Route path='/chat/profile/:profileId' element={<ChatProfile />} />
             {/* Add routes for companies */}
             <Route path="/companies" element={<Companies />} />

@@ -21,9 +21,7 @@ const Notifications = () => {
 
         const fetchNotPerson = async () => {
             try {
-          
               const response = await proxyService1.get('/friend/getAllFriendRequest/'+localStorage.getItem('userId'));
-              console.log("hello", response.data.friendRequest);
               setNotPerson(response.data.friendRequest); 
             } catch (error) {
               console.error("Error fetching friend requests:", error.message);
@@ -34,16 +32,18 @@ const Notifications = () => {
         const currentChatFunction = ()=>{
             const chat = notPersons.find((chat)=>chat.Id==notificationParamId);
             setCurrentChat(chat);
-        }
-    
-        console.log(currentChat)
-    
-        useEffect(()=>{
+          }
+          
+          
+          useEffect(()=>{
             setNotP(notificationParamId)
             currentChatFunction();
             fetchNotPerson();
             setLoading(false);
-        },[notificationParamId]);
+          },[notificationParamId]);
+          
+
+
   return (
     loading?(<></>):(
     <AppLayout>

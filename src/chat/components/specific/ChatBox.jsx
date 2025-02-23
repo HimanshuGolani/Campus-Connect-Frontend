@@ -4,6 +4,7 @@ import AttachIcon from '../../assets/Icons/attach-icon.svg'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import proxyService1 from '../../proxyService1'
 import { AppContext } from '../../context/AppProvider'
+import axios from 'axios'
 
 const ChatBox = (
     currentChat
@@ -23,12 +24,10 @@ const ChatBox = (
 
     const fetchChatData = async()=>{
         try {
+            console.log(localStorage.getItem('userId'),currentChat.currentChat._id);
             const response = await proxyService1.post('/message/getAllMessages',{
+                userId: localStorage.getItem('userId'),
                 friendId:currentChat.currentChat._id
-            },{
-                headers:{
-                    token:localStorage.getItem('token')
-                }
             });
             console.log("response",response.data.messages);
             setChatData(response.data.messages);
@@ -39,28 +38,26 @@ const ChatBox = (
 
     const SendMessageHandler = async()=>{
         try{
-            const response = await proxyService1.post('/message/sendMessage',{
+            console.log(localStorage.getItem('userId'),currentChat.currentChat._id,msgRef.current.value)
+            const response = await axios.post('http://localhost:8000/message/sendMessage',{
+                userId: localStorage.getItem('userId'),
                 receiverId:currentChat.currentChat._id,
                 message:msgRef.current.value
-            },{
-                headers:{
-                    token:localStorage.getItem('token')
-                }
             })
-            const messagePayload = {
-                type: 'message',
-                senderId: localStorage.getItem('UserId'),
-                receiverId: currentChat.currentChat._id,
-                message: msgRef.current.value,
-                createdAt: getTime(response.data.createdAt),
-            };
+            // const messagePayload = {
+            //     type: 'message',
+            //     senderId: localStorage.getItem('UserId'),
+            //     receiverId: currentChat.currentChat._id,
+            //     message: msgRef.current.value,
+            //     createdAt: getTime(response.data.createdAt),
+            // };
         
-            wsRef.current.send(JSON.stringify(messagePayload));
-            console.log("Message sent:", JSON.stringify(messagePayload));
-            console.log(chatData);
-            if(response.data){
-                msgRef.current.value = '';
-            }
+            // wsRef.current.send(JSON.stringify(messagePayload));
+            // console.log("Message sent:", JSON.stringify(messagePayload));
+            // console.log(chatData);
+            // if(response.data){
+            //     msgRef.current.value = '';
+            // }
         }catch(error){
             console.log("error",error.message);
         }
@@ -76,7 +73,7 @@ const ChatBox = (
     }
     
     const ProfileButtonHandler = ()=>{
-        navigate(`/profile/${currentChat?.currentChat?._id}`);
+        navigate(`/chitchat/profile/${currentChat?.currentChat?._id}`);
     }
 
     const getTime = (time)=>{
@@ -147,14 +144,14 @@ const ChatBox = (
     
     useEffect(()=>{
         fetchChatData();
-        console.log("WsRef",wsRef.current);
-        wsRef.current.onmessage = (message)=>{
-            const res = JSON.parse(message.data);
-            if(res.type == 'message'){
-                res.webSocket = true;
-                setChatData((chat)=>[...chat,res]);
-            }
-        }
+        // console.log("WsRef",wsRef.current);
+        // wsRef.current.onmessage = (message)=>{
+        //     const res = JSON.parse(message.data);
+        //     if(res.type == 'message'){
+        //         res.webSocket = true;
+        //         setChatData((chat)=>[...chat,res]);
+        //     }
+        // }
         console.log(wsRef.current)
     },[currentChat,chatParamId])
     
