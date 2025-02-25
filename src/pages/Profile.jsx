@@ -173,11 +173,11 @@ const Profile = () => {
                 <p className="text-sm text-[#60778a]">{universityProfileData.locationOfUniversity || "N/A"}</p>
               </div>
               <div className="bg-[#f0f2f5] p-4 rounded-xl">
-                <p className="font-semibold text-[#111518]">NIRK Ranking</p>
+                <p className="font-semibold text-[#111518]">NIRF Ranking</p>
                 <p className="text-sm text-[#60778a]">{universityProfileData.nirfRank || "N/A"}</p>
               </div>
               <div className="bg-[#f0f2f5] p-4 rounded-xl">
-                <p className="font-semibold text-[#111518]">Number of Company's visits ofr placements</p>
+                <p className="font-semibold text-[#111518]">Number of Company's visits of placements</p>
                 <p className="text-sm text-[#60778a]">{universityProfileData.numberOfCompaniesVisiting || "N/A"}</p>
               </div>
               <div className="bg-[#f0f2f5] p-4 rounded-xl">

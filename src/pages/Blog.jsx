@@ -145,7 +145,7 @@ const Blog = () => {
         +
       </button>
 
-      {/* Modal for Creating a Blog Post */}
+      {/* {model creating blog post} */}
       {isModalOpen && (
         <motion.div
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
@@ -154,21 +154,16 @@ const Blog = () => {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-11/12 md:max-w-md"
+            className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.8 }}
             transition={{ duration: 0.3 }}
           >
-            <h3 className="text-2xl sm:text-3xl font-semibold text-blue-600 mb-4">
-              Create Blog
-            </h3>
+            <h3 className="text-3xl font-semibold text-blue-600 mb-4">Create Blog</h3>
 
             <div className="mb-4">
-              <label
-                htmlFor="title"
-                className="block text-base sm:text-lg font-medium text-gray-700"
-              >
+              <label htmlFor="title" className="block text-lg font-medium text-gray-700">
                 Title
               </label>
               <input
@@ -176,32 +171,61 @@ const Blog = () => {
                 id="title"
                 name="title"
                 value={newBlog.title}
-                onChange={(e) =>
-                  setNewBlog({ ...newBlog, title: e.target.value })
-                }
+                onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
                 placeholder="Enter blog title"
-                className="w-full p-2 sm:p-3 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full p-3 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="content"
-                className="block text-base sm:text-lg font-medium text-gray-700"
-              >
+              <label htmlFor="content" className="block text-lg font-medium text-gray-700">
                 Content
               </label>
               <textarea
                 id="content"
                 name="content"
                 value={newBlog.content}
-                onChange={(e) =>
-                  setNewBlog({ ...newBlog, content: e.target.value })
-                }
+                onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
                 placeholder="Enter blog content"
-                className="w-full p-2 sm:p-3 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                rows="4"
+                className="w-full p-3 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                rows="5"
               />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="companyTags" className="block text-lg font-medium text-gray-700">
+                Select Related Companies
+              </label>
+              <select
+                id="companyTags"
+                name="companyTags"
+                multiple
+                value={newBlog.companyTags}
+                onChange={handleTagSelection}
+                className="w-full p-3 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              >
+                {companyTags.map((tag, index) => (
+                  <option key={index} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
+              <div className="mt-2">
+                <p className="text-sm font-medium text-gray-700">Selected Companies:</p>
+                <ul className="list-disc ml-6">
+                  {newBlog.companyTags.map((tag, index) => (
+                    <li key={index} className="text-sm text-gray-600 flex items-center justify-between">
+                      {tag}
+                      <button
+                        onClick={() => handleTagRemove(tag)}
+                        className="ml-2 text-red-600"
+                      >
+                        &#10005;
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             <div className="flex justify-between">
@@ -216,34 +240,31 @@ const Blog = () => {
                 className="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none"
                 disabled={loading}
               >
-                {loading ? "Submitting..." : "Submit"}
+                {loading ? 'Submitting...' : 'Submit'}
               </button>
             </div>
           </motion.div>
         </motion.div>
       )}
 
-      {/* Blog Search and Filter Options */}
-      <div className="max-w-screen-lg w-full mb-6 flex flex-col gap-4 px-4 md:px-6">
+       {/* Blog Search and Filter Options */}
+       <div className="max-w-lg w-full mb-8 flex flex-col gap-4">
         <input
           type="text"
           placeholder="Search blogs"
           value={searchQuery}
           onChange={handleSearch}
-          className="w-full p-2 sm:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
-        <div className="flex flex-col sm:flex-row gap-4">
-          <label
-            htmlFor="searchField"
-            className="text-base sm:text-lg text-gray-700"
-          >
+        <div className="flex gap-4">
+          <label htmlFor="searchField" className="text-lg text-gray-700">
             Filter by:
           </label>
           <select
             id="searchField"
             value={searchField}
             onChange={(e) => setSearchField(e.target.value)}
-            className="p-2 sm:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
             <option value="title">Title</option>
             <option value="userName">Author</option>
@@ -254,31 +275,31 @@ const Blog = () => {
       </div>
 
       {/* Blog List with Animation */}
-      <div className="w-full max-w-screen-lg px-4 md:px-6">
+      <div className="w-full max-w-lg">
         {filteredBlogs.length === 0 ? (
-          <p className="text-lg sm:text-xl text-gray-500">No blogs found</p>
+          <p className="text-xl text-gray-500">No blogs found</p>
         ) : (
           filteredBlogs.map((blog, index) => (
             <motion.div
               key={index}
-              className="bg-white p-4 sm:p-6 mb-4 shadow-lg rounded-lg"
+              className="bg-white p-6 mb-4 shadow-lg rounded-lg"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-xl sm:text-2xl font-semibold text-blue-500">
-                {blog.title}
-              </h3>
-              <p className="text-sm sm:text-base text-gray-500">
-                {blog.userName} -{" "}
-                {new Date(blog.createdAt).toLocaleDateString()}
+              <h3 className="text-2xl font-semibold text-blue-500">{blog.title}</h3>
+              <p className="text-sm text-gray-500">
+                {blog.userName} - {new Date(blog.createdAt).toLocaleDateString()}
               </p>
               <p className="text-gray-700 mt-2">{blog.content}</p>
+              <p className="text-sm text-gray-600 mt-2">Tags: {blog.companySpecificName_TAGS_List?.join(', ') || 'N/A'}</p>
             </motion.div>
           ))
         )}
       </div>
+
+    
 
       {/* Pagination */}
       <div className="mt-6 flex justify-center space-x-2 sm:space-x-4">

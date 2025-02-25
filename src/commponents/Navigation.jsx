@@ -70,11 +70,18 @@ const Navigation = () => {
                     </li>
                   </>
                 ) : (
+                  <>
                   <li>
                     <Link className="text-gray-800 hover:text-blue-500" to="/StudentList" onClick={() => setMenuOpen(false)}>
                       Student List
                     </Link>
                   </li>
+                  <li>
+                      <Link className="text-gray-800 hover:text-blue-500" to="/leaderboard" onClick={() => setMenuOpen(false)}>
+                        Coding Leaderboard
+                      </Link>
+                    </li>
+                  </>
                 )}
 
                 <li>
