@@ -39,7 +39,7 @@ const ChatBox = (
     const SendMessageHandler = async()=>{
         try{
             console.log(localStorage.getItem('userId'),currentChat.currentChat._id,msgRef.current.value)
-            const response = await proxyService1.post('http://localhost:8000/message/sendMessage',{
+            const response = await proxyService1.post('/message/sendMessage',{
                 userId: localStorage.getItem('userId'),
                 receiverId:currentChat.currentChat._id,
                 message:msgRef.current.value
