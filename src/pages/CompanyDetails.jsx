@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { ApplicationContext } from '../context/ApplicationContext';
+import { FaTrash } from 'react-icons/fa';
+import Loader from '../commponents/Loader';
 
 const CompanyDetails = () => {
   const location = useLocation();
@@ -53,8 +55,7 @@ const CompanyDetails = () => {
     }
 
     try {
-      console.log(userId);
-      
+setLoading(true)      
       const response = await axios.get(`${BASE_URL}university/search/${userId}`, {
         params: { email: searchEmail },
       });
@@ -64,6 +65,9 @@ const CompanyDetails = () => {
     } catch (error) {
       console.error('Error searching student:', error);
       alert('Student not found.');
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -77,6 +81,7 @@ const CompanyDetails = () => {
 
     setIsSubmitting(true);
     try {
+      setLoading(true)
       await axios.post(
         `${BASE_URL}university/addStudent/${userId}/${companyId}/${searchResult.id}`
       );
@@ -89,12 +94,47 @@ const CompanyDetails = () => {
       alert('Failed to add the student.');
     } finally {
       setIsSubmitting(false);
+      setLoading(false)
     }
   };
 
+  const handelDelete = async () => {
+      try{
+        setLoading(true);
+        let universityId = userId;
+        const response = await axios.delete(`${BASE_URL}university/remove-company/${companyId}/${universityId}`);
+        console.log(response);
+        setLoading(false);
+        
+        alert("Succesfully deleted the company.");
+      }
+      catch(error){
+        console.log('Error removing comoapny:', error);
+       alert('Failed to remove the company.');
+      }
+      finally{
+        setLoading(false)
+      }
+  }
+
   return (
+   
     <div className="container mx-auto p-6 space-y-8 max-w-4xl">
+       {loading && <><Loader /></>}
       <h1 className="text-3xl font-bold text-gray-900">{companyName}</h1>
+
+      {
+        userType === 'university' && (
+          <div className="flex justify-end p-4">
+      <button 
+        onClick={handelDelete} 
+        className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition w-full max-w-[200px] md:w-auto">
+        <FaTrash />
+        Delete the company
+      </button>
+    </div>
+        )
+      }
 
       {error && <p className="text-red-500">{error}</p>}
 
@@ -141,6 +181,8 @@ const CompanyDetails = () => {
       </div>
 
       {userType === 'university' && (
+
+
         <div className="bg-white shadow-lg rounded-lg p-6 mb-8">
           <h2 className="text-2xl font-semibold text-gray-800 mt-8 mb-4">
             Add a Student to {companyName}
@@ -160,6 +202,7 @@ const CompanyDetails = () => {
               Search
             </button>
           </div>
+
 
           {searchResult && (
             <div className="p-6 border border-gray-200 rounded-lg shadow-md bg-green-100">
