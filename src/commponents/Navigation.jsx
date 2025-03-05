@@ -26,7 +26,10 @@ const Navigation = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden text-gray-800 text-2xl" onClick={() => setMenuOpen(!menuOpen)}>
+        <button
+          className="md:hidden text-gray-800 text-2xl"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
           {menuOpen ? <HiOutlineX /> : <HiOutlineMenu />}
         </button>
 
@@ -38,7 +41,11 @@ const Navigation = () => {
         >
           <ul className="flex flex-col md:flex-row gap-6 text-lg p-4 md:p-0">
             <li>
-              <Link className="text-gray-800 hover:text-blue-500" to="/" onClick={() => setMenuOpen(false)}>
+              <Link
+                className="text-gray-800 hover:text-blue-500"
+                to="/"
+                onClick={() => setMenuOpen(false)}
+              >
                 Home
               </Link>
             </li>
@@ -46,7 +53,11 @@ const Navigation = () => {
             {auth ? (
               <>
                 <li>
-                  <Link className="text-gray-800 hover:text-blue-500" to="/profile" onClick={() => setMenuOpen(false)}>
+                  <Link
+                    className="text-gray-800 hover:text-blue-500"
+                    to="/profile"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     Profile
                   </Link>
                 </li>
@@ -54,30 +65,50 @@ const Navigation = () => {
                 {userType === "user" ? (
                   <>
                     <li>
-                      <Link className="text-gray-800 hover:text-blue-500" to="/chitchat/chat" onClick={() => setMenuOpen(false)}>
+                      <Link
+                        className="text-gray-800 hover:text-blue-500"
+                        to="/chitchat/chat"
+                        onClick={() => setMenuOpen(false)}
+                      >
                         Chat
                       </Link>
                     </li>
                     <li>
-                      <Link className="text-gray-800 hover:text-blue-500" to="/companies" onClick={() => setMenuOpen(false)}>
+                      <Link
+                        className="text-gray-800 hover:text-blue-500"
+                        to="/companies"
+                        onClick={() => setMenuOpen(false)}
+                      >
                         Companies
                       </Link>
                     </li>
                     <li>
-                      <Link className="text-gray-800 hover:text-blue-500" to="/leaderboard" onClick={() => setMenuOpen(false)}>
+                      <Link
+                        className="text-gray-800 hover:text-blue-500"
+                        to="/leaderboard"
+                        onClick={() => setMenuOpen(false)}
+                      >
                         Coding Leaderboard
                       </Link>
                     </li>
                   </>
                 ) : (
                   <>
-                  <li>
-                    <Link className="text-gray-800 hover:text-blue-500" to="/StudentList" onClick={() => setMenuOpen(false)}>
-                      Student List
-                    </Link>
-                  </li>
-                  <li>
-                      <Link className="text-gray-800 hover:text-blue-500" to="/leaderboard" onClick={() => setMenuOpen(false)}>
+                    <li>
+                      <Link
+                        className="text-gray-800 hover:text-blue-500"
+                        to="/StudentList"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Student List
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="text-gray-800 hover:text-blue-500"
+                        to="/leaderboard"
+                        onClick={() => setMenuOpen(false)}
+                      >
                         Coding Leaderboard
                       </Link>
                     </li>
@@ -85,17 +116,38 @@ const Navigation = () => {
                 )}
 
                 <li>
-                  <Link className="text-gray-800 hover:text-blue-500" to="/blogs" onClick={() => setMenuOpen(false)}>
+                  <Link
+                    className="text-gray-800 hover:text-blue-500"
+                    to="/companies"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Companies
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="text-gray-800 hover:text-blue-500"
+                    to="/blogs"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     Blogs
                   </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-800 hover:text-blue-500" to="/links" onClick={() => setMenuOpen(false)}>
+                  <Link
+                    className="text-gray-800 hover:text-blue-500"
+                    to="/links"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     Links
                   </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-800 hover:text-blue-500" onClick={logoutTasks} to="/">
+                  <Link
+                    className="text-gray-800 hover:text-blue-500"
+                    onClick={logoutTasks}
+                    to="/"
+                  >
                     Logout
                   </Link>
                 </li>
@@ -103,12 +155,20 @@ const Navigation = () => {
             ) : (
               <>
                 <li>
-                  <Link className="text-gray-800 hover:text-blue-500" to="/login" onClick={() => setMenuOpen(false)}>
+                  <Link
+                    className="text-gray-800 hover:text-blue-500"
+                    to="/login"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     Login
                   </Link>
                 </li>
                 <li>
-                  <Link className="text-gray-800 hover:text-blue-500" to="/signup" onClick={() => setMenuOpen(false)}>
+                  <Link
+                    className="text-gray-800 hover:text-blue-500"
+                    to="/signup"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     Signup
                   </Link>
                 </li>
