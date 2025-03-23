@@ -16,6 +16,7 @@ import Notification from './chat/pages/Notifications.jsx';
 import ChatProfile from './chat/components/specific/Profile.jsx';
 import UseFullLinkPage from './pages/UseFullLinkPage.jsx';
 import LeaderBoard from './commponents/LeaderBoard.jsx';
+import ChatBot from './pages/ChatBot.jsx';
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
             <Route path='/StudentList' element={<StudentList />} />
             <Route path='/links' element={<UseFullLinkPage /> } /> 
             <Route path='/leaderboard' element={<LeaderBoard /> } /> 
+            <Route path='/chatbot' element={<ChatBot /> } /> 
             {/* <Route path="/chats/:id" element={<ChatContainer />} />
             <Route path="/chats" element={<ChatContainer />} /> */}
 

@@ -22,7 +22,6 @@ const CompanyDetails = () => {
   useEffect(() => {
     const fetchCompanyData = async () => {
       if (userType === 'university') {
-       console.log("User type is:",userType,loading);
        setLoading(false);
         return; 
       }
