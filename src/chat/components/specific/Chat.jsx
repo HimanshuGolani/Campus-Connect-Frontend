@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 
-const Chat = ({data,Id,chatParamId,mode='Offline'}) => {
+const Chat = ({data,Id,chatParamId,mode='Online'}) => {
   // console.log(Id," ",chatParamId);
   const navigate = useNavigate();
 

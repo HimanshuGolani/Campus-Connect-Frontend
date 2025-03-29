@@ -22,7 +22,20 @@ const FriendProfile = ({notP,notPerson=[]}) => {
             return person.universityId;
         }
     })
-  
+
+    const declineFriendRequest = async()=>{
+      console.log(localStorage.getItem('userId'),notP);
+        const response = await proxyService1.post('/friend/declineRequest',{
+            userId: localStorage.getItem('userId'),
+            friendId : notP
+        })
+        if(response.status == '200'){
+            navigate(`/chitchat/chat`);
+        }else{
+            toast.error('unable to decline friend request')
+        }
+    }
+   
 
     const AcceptRequestHandler = async()=>{
         console.log('userId',localStorage.getItem('userId'));
@@ -31,7 +44,7 @@ const FriendProfile = ({notP,notPerson=[]}) => {
             friendId : notP
         })
         if(response.status == '200'){
-            navigate(`/chitchat/chat${notP}`);
+            navigate(`/chitchat/chat/${notP}`);
         }else{
             toast.error('unable to accept friend request')
         }
@@ -197,7 +210,7 @@ const FriendProfile = ({notP,notPerson=[]}) => {
           </button>
           <button
             className={`px-4 py-2 rounded ${activeTab === "university" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"}`}
-            onClick={() => {}}
+            onClick={declineFriendRequest}
           >
             Decline Friend Request
           </button>
