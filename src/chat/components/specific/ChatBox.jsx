@@ -10,7 +10,7 @@ const ChatBox = (
     currentChat
 ) => {
     console.log('oi',currentChat?.currentChat?.unFriended);
-    console.log(currentChat?.currentChat?.unFriended?.includes(localStorage.getItem('UserId')));
+    console.log(currentChat?.currentChat?.unFriended?.includes(localStorage.getItem('userId')));
     const msgRef = useRef(null);
     const messagesRef = useRef(null);
     const wsRef = useContext(AppContext).wsRef;
@@ -44,20 +44,21 @@ const ChatBox = (
                 receiverId:currentChat.currentChat._id,
                 message:msgRef.current.value
             })
-            // const messagePayload = {
-            //     type: 'message',
-            //     senderId: localStorage.getItem('UserId'),
-            //     receiverId: currentChat.currentChat._id,
-            //     message: msgRef.current.value,
-            //     createdAt: getTime(response.data.createdAt),
-            // };
+            const messagePayload = {
+                type: 'message',
+                senderId: localStorage.getItem('UserId'),
+                receiverId: currentChat.currentChat._id,
+                message: msgRef.current.value,
+                createdAt: getTime(response.data.createdAt),
+            };
         
-            // wsRef.current.send(JSON.stringify(messagePayload));
-            // console.log("Message sent:", JSON.stringify(messagePayload));
-            // console.log(chatData);
-            // if(response.data){
-            //     msgRef.current.value = '';
-            // }
+            wsRef.current.send(JSON.stringify(messagePayload));
+            console.log("Message sent:", JSON.stringify(messagePayload));
+            console.log(chatData);
+            if(response.data){
+                msgRef.current.value = '';
+            }
+            window.location.reload();
         }catch(error){
             console.log("error",error.message);
         }
@@ -65,9 +66,7 @@ const ChatBox = (
     }
     
     const MsgInputHandler = (event)=>{
-        if(event.key === 'Enter'&&event.shiftKey){
-            msgRef.current.value = msgRef.current.value + '\n';
-        }else if(event.key === 'Enter'){
+        if(event.key === 'Enter'){
             SendMessageHandler();
         }
     }
@@ -144,14 +143,15 @@ const ChatBox = (
     
     useEffect(()=>{
         fetchChatData();
-        // console.log("WsRef",wsRef.current);
-        // wsRef.current.onmessage = (message)=>{
-        //     const res = JSON.parse(message.data);
-        //     if(res.type == 'message'){
-        //         res.webSocket = true;
-        //         setChatData((chat)=>[...chat,res]);
-        //     }
-        // }
+        console.log("WsRef",wsRef.current);
+        wsRef.current.onmessage = (message)=>{
+            const res = JSON.parse(message.data);
+            console.log("respose from websocket",res)
+            if(res.type == 'message'){
+                res.webSocket = true;
+                setChatData((chat)=>[...chat,res]);
+            }
+        }
         console.log(wsRef.current)
     },[currentChat,chatParamId])
     
@@ -172,7 +172,7 @@ const ChatBox = (
                         {currentChat?.currentChat?.userName}
                     </div>
                     <div className='text-sm text-gray-600'>
-                        {currentChat?.currentChat?.mode?(curr.currentChat.mode):("Offline")}
+                        {currentChat?.currentChat?.mode?(curr.currentChat.mode):("Online")}
                     </div>
                 </div>
             </div>
@@ -218,35 +218,66 @@ const ChatBox = (
                                 )
                             }
                         }
-                        if(data.senderId==currentChat.currentChat._id){
-                            return (
-                                <div key={index}>
-                                    {addAddress}
-                                    <div className='bg-primary text-white block m-2 mb-0 p-2 rounded-r-xl rounded-tl-xl  max-w-[50%] w-fit'>
-                                        {data.message}
-                                    </div>
-                                    <div className='text-[12px] text-gray-800 ml-2'>
-                                        {data.webSocket?(data.createdAt):(getTime(data.createdAt))}
-                                    </div>
-                                </div>
-                            )
-                        }else{
-                            return(
-                                <div key={index} >
-                                    {addAddress}
-                                    <div className='flex flex-col items-end'>
-                                        <div className='bg-gray-700 text-white block m-2 mb-0 p-2 rounded-l-xl rounded-tr-xl  max-w-[50%] w-fit text-right relative right-0'>
+                        if(data.webSocket){
+                            if(data.receiverId!=chatParamId){
+                                return (
+                                    <div key={index}>
+                                        {addAddress}
+                                        <div className='bg-primary text-white block m-2 mb-0 p-2 rounded-r-xl rounded-tl-xl  max-w-[50%] w-fit'>
                                             {data.message}
                                         </div>
-                                        <div className='text-[12px] text-gray-800 mr-2'>
+                                        <div className='text-[12px] text-gray-800 ml-2'>
                                             {data.webSocket?(data.createdAt):(getTime(data.createdAt))}
                                         </div>
                                     </div>
-                                </div>
-                            )
+                                )
+                            }else{
+                                return(
+                                    <div key={index} >
+                                        {addAddress}
+                                        <div className='flex flex-col items-end'>
+                                            <div className='bg-gray-700 text-white block m-2 mb-0 p-2 rounded-l-xl rounded-tr-xl  max-w-[50%] w-fit text-right relative right-0'>
+                                                {data.message}
+                                            </div>
+                                            <div className='text-[12px] text-gray-800 mr-2'>
+                                                {data.webSocket?(data.createdAt):(getTime(data.createdAt))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        
+                        }else{
+                            if(data.senderId==currentChat.currentChat._id){
+                                return (
+                                    <div key={index}>
+                                        {addAddress}
+                                        <div className='bg-primary text-white block m-2 mb-0 p-2 rounded-r-xl rounded-tl-xl  max-w-[50%] w-fit'>
+                                            {data.message}
+                                        </div>
+                                        <div className='text-[12px] text-gray-800 ml-2'>
+                                            {data.webSocket?(data.createdAt):(getTime(data.createdAt))}
+                                        </div>
+                                    </div>
+                                )
+                            }else{
+                                return(
+                                    <div key={index} >
+                                        {addAddress}
+                                        <div className='flex flex-col items-end'>
+                                            <div className='bg-gray-700 text-white block m-2 mb-0 p-2 rounded-l-xl rounded-tr-xl  max-w-[50%] w-fit text-right relative right-0'>
+                                                {data.message}
+                                            </div>
+                                            <div className='text-[12px] text-gray-800 mr-2'>
+                                                {data.webSocket?(data.createdAt):(getTime(data.createdAt))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
                         }
                     })} 
-                    {currentChat?.currentChat?.unFriended?.includes(localStorage.getItem('UserId'))?(<div className='w-full bg-white sticky bottom-0  '> 
+                    {currentChat?.currentChat?.unFriended?.includes(localStorage.getItem('userId'))?(<div className='w-full bg-white sticky bottom-0  '> 
                     <div className='flex flex-col gap-5 items-center bg-white border-gray-500 border-2 m-5 rounded-lg p-5'>
                         <div>
                             {currentChat?.currentChat?.userName} has unfriend you
