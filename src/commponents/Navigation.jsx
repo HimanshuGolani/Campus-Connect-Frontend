@@ -85,15 +85,6 @@ const Navigation = () => {
                     <li>
                       <Link
                         className="text-gray-800 hover:text-blue-500"
-                        to="/companies"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        Companies
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className="text-gray-800 hover:text-blue-500"
                         to="/leaderboard"
                         onClick={() => setMenuOpen(false)}
                       >

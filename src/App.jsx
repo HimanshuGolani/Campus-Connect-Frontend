@@ -36,7 +36,6 @@ const App = () => {
             <Route path='/chitchat/notification/:notificationParamId' element={<Notification />} />
             <Route path='/chitchat/chat/:chatParamId' element={<Home2 />} />
             <Route path='/chat/profile/:profileId' element={<ChatProfile />} />
-            {/* Add routes for companies */}
             <Route path="/companies" element={<Companies />} />
             <Route path="/companieyDetails/:id" element={<CompanyDetails />} />
             <Route path='/StudentList' element={<StudentList />} />
