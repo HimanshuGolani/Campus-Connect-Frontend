@@ -69,7 +69,7 @@ const Home = () => {
     }
 
     const joinSocketHandler = async()=>{
-        const socket = new WebSocket('ws://localhost:8085');
+        const socket = new WebSocket('wss://campusconnnectchatbackend.onrender.com');
         wsRef.current = socket;
         socket.onopen = ()=>{
             socket.send(JSON.stringify({
