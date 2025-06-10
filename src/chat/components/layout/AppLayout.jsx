@@ -59,7 +59,7 @@ const AppLayout = ({children}) => {
                 <div className="w-[80px] min-w-[56px] h-[95vh] bg-gray-800 my-[2.5vh] ml-6 rounded-xl flex flex-col relative items-center justify-between">
                     <IoChatbubbles className="fill-primary scale-150 my-[30px] cursor-pointer " onClick={()=>navigate("/")} />
                     <div className="flex flex-col gap-[50px]">
-                        <img src={mailIcon} className="scale-150 cursor-pointer" onClick={()=>alert("under development")} />
+                        {/* <img src={mailIcon} className="scale-150 cursor-pointer" onClick={()=>alert("under development")} /> */}
                         {/* <img src={mailSolidIcon} className="scale-150 cursor-pointer" /> */}
                         {chatIconState?(
                             <img src={chatSolidIcon} className="scale-150 cursor-pointer" onClick={()=>navigate("/chitchat/chat")}/>
@@ -71,7 +71,7 @@ const AppLayout = ({children}) => {
                         ):(
                             <img src={heartIcon} className="scale-150 cursor-pointer" onClick={()=>navigate("/chitchat/notification")} />
                         )}
-                        <img src={binIcon} className="scale-150 cursor-pointer" onClick={()=>alert("under development")} />
+                        {/* <img src={binIcon} className="scale-150 cursor-pointer" onClick={()=>alert("under development")} /> */}
                         {/* <img src={binSolidIcon} className="scale-150 cursor-pointer" /> */}
                     </div>
                     <div className="flex flex-col gap-5 my-[30px]">

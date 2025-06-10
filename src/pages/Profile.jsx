@@ -120,11 +120,11 @@ const Profile = () => {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-[#f0f2f5] p-4 rounded-xl">
-                <p className="font-semibold text-[#111518]">University Name</p>
+                <p className="font-semibold text-[#111518]">University Name</p>f
                 <p className="text-sm text-[#60778a]">{profileData.universityName || "N/A"}</p>
               </div>
               <div className="bg-[#f0f2f5] p-4 rounded-xl">
-                <p className="font-semibold text-[#111518]">Email</p>
+                <p className="font-semibold text-[#111518]">User Name</p>
                 <p className="text-sm text-[#60778a]">{profileData.email || "N/A"}</p>
               </div>
               <div className="bg-[#f0f2f5] p-4 rounded-xl">
